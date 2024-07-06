@@ -13,9 +13,15 @@ import {
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { formSchema } from "@/lib/FormSchema";
+import { Textarea } from "../ui/textarea";
 
 const MailForm = () => {
-  const form = useForm();
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: { username: "", subject: "", email: "", content: "" },
+  });
 
   function onSubmit(values: any) {
     // Do something with the form values.
@@ -36,13 +42,49 @@ const MailForm = () => {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>ユーザー名</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="メールアドレス" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>メールアドレス</FormLabel>
+              <FormControl>
+                <Input placeholder="メールアドレス" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="subject"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>主題</FormLabel>
+              <FormControl>
+                <Input placeholder="主題" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="content"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>本文</FormLabel>
+              <FormControl>
+                <Textarea placeholder="本文" {...field} />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
