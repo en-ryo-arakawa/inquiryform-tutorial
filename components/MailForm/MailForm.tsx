@@ -4,7 +4,6 @@ import React from "react";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -12,29 +11,16 @@ import {
 } from "../ui/form";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { formSchema } from "@/lib/FormSchema";
+import { useMailForm } from "@/hooks/useMailForm";
 import { Textarea } from "../ui/textarea";
 
 const MailForm = () => {
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: { username: "", subject: "", email: "", content: "" },
-  });
-
-  function onSubmit(values: any) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
+  const { form, onSubmit } = useMailForm();
 
   return (
     <Form {...form}>
       <form
-        onSubmit={() => {
-          form.handleSubmit(onSubmit);
-        }}
+        onSubmit={form.handleSubmit(onSubmit)}
         className="container flex flex-col gap-3"
       >
         <FormField
